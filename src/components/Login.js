@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 function Login() {
   return (
@@ -9,7 +10,10 @@ function Login() {
           <input id='passwordField' type='password' placeholder='Your password' />
         </div>
         <br />
-        <button id='loginButton' className='ui primary button'>Log in</button>
+        
+        <Link to="/posts">
+          <button id='loginButton' className='ui primary button'>Log in</button>
+        </Link>
     </div>
   );
 };
