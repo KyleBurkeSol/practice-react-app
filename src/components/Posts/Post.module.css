@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  margin-top: 40px;
+}
+
+.dateContainer {
+  margin-right: 40px;
+  padding: 10px 30px;
+  display: flex;
+  flex-direction: column;
+  border-style: solid;
+  border-color: rgb(118, 73, 202);
+  border-width: 1px;
+}
+
+.postContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.day {
+  text-align: center;
+  color: rgb(118, 73, 202);
+}
+
+.month {
+  color: rgb(118, 73, 202);
+}
+
+.title {
+  font-weight: bold;
+}
