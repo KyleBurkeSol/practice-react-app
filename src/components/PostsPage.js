@@ -1,5 +1,5 @@
 import React from 'react';
-import Post from './PostList';
+import PostList from './PostList';
 
 function Posts(){
     return(
@@ -10,7 +10,7 @@ function Posts(){
                 <button id='searchFilterButton' className='ui primary button'>Filter</button>
             </div>
             <div>
-                <Post />
+                <PostList />
             </div>
         </div>
         
