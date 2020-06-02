@@ -1,8 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Login from './components/Login';
-import Posts from './components/PostsPage';
+import Login from './components/Login/Login';
+import Posts from './components/Posts/PostsPage';
 
 import {
   BrowserRouter as Router,
