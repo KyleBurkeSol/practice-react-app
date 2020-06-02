@@ -1,29 +1,22 @@
 import React from 'react';
 import style from './PostsPage.module.css';
 import Post from './Post';
+import axios from 'axios';
 
 class Posts extends React.Component {
     constructor(props) {
         super(props);
 
-        const fetchedPosts = [
-            {
-                'title': 'title 1',
-                'body': 'body 1'
-            },
-            {
-                'title': 'title 2',
-                'body': 'body 2'
-            },
-            {
-                'title': 'title 3',
-                'body': 'body 3'
-            }
-        ];
-
         this.state = {
-            posts: fetchedPosts
+            posts: []
         };
+    }
+
+    componentDidMount() {
+        axios.get('https://jsonplaceholder.typicode.com/posts')
+            .then(result => {
+                this.setState({ posts: result.data });
+            });
     }
 
     render() {
