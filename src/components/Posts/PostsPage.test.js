@@ -29,6 +29,12 @@ describe('Posts page test', () => {
     expect(filterButtonElementAttributes.text()).toBe('Filter');
   });
 
+  it('Has a correct initial state', () => {
+    axios.get.mockResolvedValue({ data: [] });
+    const wrapper = shallow(<Posts />);
+    expect(wrapper.state()).toStrictEqual({ posts: [], filter: '' });
+  });
+
   it('Has posts', () => {
     axios.get.mockResolvedValue({ data: [] });
     const wrapper = shallow(<Posts />);
@@ -52,8 +58,29 @@ describe('Posts page test', () => {
 
     expect(posts).toHaveLength(3);
 
+    const props = [
+      {
+        'title': 'title 1',
+        'body': 'body 1',
+        'filterStart': 0,
+        'filterLength': 0
+      },
+      {
+        'title': 'title 2',
+        'body': 'body 2',
+        'filterStart': 0,
+        'filterLength': 0
+      },
+      {
+        'title': 'title 3',
+        'body': 'body 3',
+        'filterStart': 0,
+        'filterLength': 0
+      }
+    ];
+
     posts.forEach((post, index) => {
-      expect(post.props()).toStrictEqual(mockedPosts[index]);
+      expect(post.props()).toStrictEqual(props[index]);
     });
   });
 
@@ -83,5 +110,83 @@ describe('Posts page test', () => {
     const wrapper = shallow(<Posts />);
 
     expect(axios.get).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/posts');
+  });
+
+  it('Filters posts', () => {
+    axios.get.mockResolvedValue({ data: [] });
+    const wrapper = shallow(<Posts />);
+
+    // Set the state of the compotnent to have 3 posts
+    const mockedPosts = [
+      {
+        'title': 'title 1',
+        'body': 'body 1'
+      },
+      {
+        'title': 'title 2',
+        'body': 'body 2'
+      },
+      {
+        'title': 'title 3',
+        'body': 'body 3'
+      }
+    ];
+
+    wrapper.setState({ posts: mockedPosts });
+
+    // Check 3 posts are being rendered
+    let props = [
+      {
+        'title': 'title 1',
+        'body': 'body 1',
+        'filterStart': 0,
+        'filterLength': 0
+      },
+      {
+        'title': 'title 2',
+        'body': 'body 2',
+        'filterStart': 0,
+        'filterLength': 0
+      },
+      {
+        'title': 'title 3',
+        'body': 'body 3',
+        'filterStart': 0,
+        'filterLength': 0
+      }
+    ];
+    let posts = wrapper.find(Post);
+    expect(posts).toHaveLength(3);
+    posts.forEach((post, index) => {
+      expect(post.props()).toStrictEqual(props[index]);
+    });
+
+    // Set the state of the compotent to have a filter of 'title 1'
+    wrapper.setState({ filter: 'title 3' });
+
+    // Check the post with a title of 'title 3' is rendered
+    posts = wrapper.find(Post);
+    expect(posts).toHaveLength(1);
+    props = {
+      'title': 'title 3',
+      'body': 'body 3',
+      'filterStart': 0,
+      'filterLength': 7
+    };
+    expect(posts.first().props()).toStrictEqual(props);
+  });
+
+  it('Sets the filter when you type in the filter field', () => {
+    axios.get.mockResolvedValue({ data: [] });
+    const wrapper = shallow(<Posts />);
+    
+    // Check the filter is ''
+    expect(wrapper.state().filter).toBe('');
+
+    // Simulate typing in the filter field
+    wrapper.find('input').simulate('change', { target: { value: 'hello' } });
+
+    // Check the state is changed
+    expect(wrapper.state().filter).toBe('hello');
   });
 });

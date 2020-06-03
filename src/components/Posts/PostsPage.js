@@ -8,27 +8,47 @@ class Posts extends React.Component {
         super(props);
 
         this.state = {
-            posts: []
+            posts: [],
+            filter: ''
         };
+
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     componentDidMount() {
         axios.get('https://jsonplaceholder.typicode.com/posts')
             .then(result => {
-                this.setState({ posts: result.data });
+                this.setState({
+                    posts: result.data
+                });
             });
     }
 
+    handleInputChange(event) {
+        this.setState({ filter: event.target.value });
+    }
+
     render() {
-        const posts = this.state.posts.map((post, index) => (
-            <Post key={index} title={post.title} body={post.body} />
-        ));
+        const filter = this.state.filter;
+        const posts = this.state.posts.map((post, index) => {
+            const filterInTitleIndex = post.title.indexOf(filter);
+            if (filter === '' || filterInTitleIndex != -1) {
+                return (
+                    <Post
+                        key={index}
+                        title={post.title}
+                        body={post.body}
+                        filterStart={filterInTitleIndex}
+                        filterLength={filter.length}
+                    />);
+            }
+        });
 
         return(
             <div className={style.container}>
                 <h1>Posts</h1>
                 <div class={style.searchField + " ui input"}>
-                    <input type="text" placeholder="Type here" />
+                    <input type="text" placeholder="Type here" onChange={this.handleInputChange} />
                 </div>
                 <button id='searchFilterButton' className='ui primary button'>Filter</button>
                 {posts}

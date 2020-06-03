@@ -5,10 +5,10 @@ import Post from './Post';
 describe('Post', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(<Post />);
+    wrapper = shallow(<Post filterLength={0} />);
   });
 
-  it('Renders a day date', () => {
+  fit('Renders a day date', () => {
     const dayElement = wrapper.find({'data-testid': 'day'});
     expect(dayElement.text()).toBe('28');
   });
@@ -19,13 +19,11 @@ describe('Post', () => {
   });
 
   it('Renders a post title', () => {
-    wrapper.setProps({ title: 'post title' });
     const titleElement = wrapper.find({'data-testid': 'title'});
     expect(titleElement.text()).toBe('post title');
   });
 
   it('Renders a post content', () => {
-    wrapper.setProps({ body: 'post body' });
     const titleElement = wrapper.find({'data-testid': 'content'});
     expect(titleElement.text()).toBe('post body');
   });
